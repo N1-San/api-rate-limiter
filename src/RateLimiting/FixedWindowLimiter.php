@@ -22,7 +22,7 @@ class FixedWindowLimiter implements RateLimiterInterface
 
         $key = sprintf('rate:%s:%d', $apiKeyHash, $windowStart);
 
-        $redis = $this->redisClient->getClient();
+        $redis = $this->redisClient->client();
 
         $current = $redis->incr($key);
 

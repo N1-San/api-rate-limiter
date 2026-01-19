@@ -1,27 +1,24 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Infrastructure;
 
-use Redis;
-use App\Config\Config;
+use Predis\Client;
 
 class RedisClient
 {
-    private Redis $redis;
+    private Client $client;
 
     public function __construct()
     {
-        $this->redis = new Redis();
-        $this->redis->connect(
-            Config::get('REDIS_HOST', '127.0.0.1'),
-            (int) Config::get('REDIS_PORT', 6379)
-        );
+        $this->client = new Client([
+            'scheme' => 'tcp',
+            'host'   => '127.0.0.1',
+            'port'   => 6379,
+        ]);
     }
 
-    public function getClient(): Redis
+    public function client(): Client
     {
-        return $this->redis;
+        return $this->client;
     }
 }
